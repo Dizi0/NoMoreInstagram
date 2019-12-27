@@ -13,7 +13,7 @@ class noMoreInsta{
 
     public function __construct($username)
     {
-        $json = file_get_contents('https://www.instagram.com/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
+        $json = file_get_contents('https://www.instagram.com/explore/tags/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
         global $instagram;
         $this->instagram = $instagram = json_decode($json);
     }
@@ -21,42 +21,44 @@ class noMoreInsta{
     public function igDebug(){
         return($this->instagram);
     }
-    public function igGetUserData($username){
-        $json = file_get_contents('https://www.instagram.com/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
+    public function igGetUserName($username){
+        $json = file_get_contents('https://www.instagram.com/explore/tags/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
         $instagram = json_decode($json);
-        return($instagram->graphql->user);
+        $text_username = $this->instagram->graphql->hashtag->name;
+        return $text_username;
+    }
+    public function igGetUserPic($username){
+        $json = file_get_contents('https://www.instagram.com/explore/tags/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
+        $instagram = json_decode($json);
+        $profile_pic =  "<img src='" . $instagram->graphql->hashtag->profile_pic_url."'>";
+        return $profile_pic;
     }
     public function igGetUserId($username){
-        $json = file_get_contents('https://www.instagram.com/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
+        $json = file_get_contents('https://www.instagram.com/explore/tags/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
         $instagram = json_decode($json);
         return($instagram->graphql->user->id);
     }
     public function igGetUserBusCat($username){
-        $json = file_get_contents('https://www.instagram.com/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
+        $json = file_get_contents('https://www.instagram.com/explore/tags/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
         $instagram = json_decode($json);
         return($instagram->graphql->user->business_category_name);
     }
     public function igGetBio($username){
-        $json = file_get_contents('https://www.instagram.com/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
+        $json = file_get_contents('https://www.instagram.com/explore/tags/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
         $instagram = json_decode($json);
         return($instagram->graphql->user->biography);
     }
-    public function igGetUserNameText($username){
-        $json = file_get_contents('https://www.instagram.com/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
-        $instagram = json_decode($json);
-        $text_username = $instagram->graphql->user->full_name;
-        return $text_username;
-    }
-    public function igGetUserPic($username){
-        $json = file_get_contents('https://www.instagram.com/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
-        $instagram = json_decode($json);
-        $profile_pic =  "<img src='" . $instagram->graphql->user->profile_pic_url_hd."'>";
-        return $profile_pic;
-    }
+//    public function igGetUserNameText($username){
+//        $json = file_get_contents('https://www.instagram.com/explore/tags/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
+//        $instagram = json_decode($json);
+//        $text_username = $instagram->graphql->user->full_name;
+//        return $text_username;
+//    }
+
     public function igGetUserPicSrc($username){
-        $json = file_get_contents('https://www.instagram.com/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
+        $json = file_get_contents('https://www.instagram.com/explore/tags/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
         $instagram = json_decode($json);
-        $profile_pic_url = $instagram->graphql->user->profile_pic_url_hd;
+        $profile_pic_url = $instagram->graphql->hashtag->profile_pic_url;
         return $profile_pic_url;
     }
 
