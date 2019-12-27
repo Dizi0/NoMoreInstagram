@@ -19,7 +19,8 @@ class noMoreInsta{
     }
 
     public function igDebug(){
-        return($this->instagram);
+        //Choper les images
+        return($this->instagram->graphql->hashtag);
     }
     public function igGetUserName($username){
         $json = file_get_contents('https://www.instagram.com/explore/tags/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
@@ -66,17 +67,17 @@ class noMoreInsta{
      * TO DO : Récuperer le short code pour créer un embed si is_video == true
      */
     public function igGetUserMedia($username){
-        $json = file_get_contents('https://www.instagram.com/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
+        $json = file_get_contents('https://www.instagram.com/explore/tags/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
         $instagram = json_decode($json);
-        $mediasource = $instagram->graphql->user->edge_owner_to_timeline_media->edges;
-        foreach ($mediasource as $item) {
-            $img = $item->node->display_url;
-            echo "<img src='". $img ."'>";
+        $mediasource = $instagram->graphql->hashtag->edge_hashtag_to_media->edges;
+//        var_dump($mediasource);
+        foreach ($mediasource as $posts) {
+            echo "<img src='". $posts->node->display_url ."'>";
         }
     }
 
     public function ig_get_medias($username){
-        $json = file_get_contents('https://www.instagram.com/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
+        $json = file_get_contents('https://www.instagram.com/explore/tags/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
         $instagram = json_decode($json);
 
         $userID = $instagram->logging_page_id;
