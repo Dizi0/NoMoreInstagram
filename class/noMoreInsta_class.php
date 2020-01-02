@@ -29,9 +29,9 @@ class noMoreInsta{
         return $text_username;
     }
     public function igGetUserPic($username){
-        $json = file_get_contents('https://www.instagram.com/explore/tags/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
+        $json = file_get_contents('https://www.instagram.com/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
         $instagram = json_decode($json);
-        $profile_pic =  "<img src='" . $instagram->graphql->hashtag->profile_pic_url."'>";
+        $profile_pic =  "<img src='" . $instagram->graphql->user->profile_pic_url_hd."'>";
         return $profile_pic;
     }
     public function igGetUserId($username){
@@ -45,16 +45,16 @@ class noMoreInsta{
         return($instagram->graphql->user->business_category_name);
     }
     public function igGetBio($username){
-        $json = file_get_contents('https://www.instagram.com/explore/tags/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
+        $json = file_get_contents('https://www.instagram.com/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
         $instagram = json_decode($json);
         return($instagram->graphql->user->biography);
     }
-//    public function igGetUserNameText($username){
-//        $json = file_get_contents('https://www.instagram.com/explore/tags/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
-//        $instagram = json_decode($json);
-//        $text_username = $instagram->graphql->user->full_name;
-//        return $text_username;
-//    }
+    public function igGetUserNameText($username){
+        $json = file_get_contents('https://www.instagram.com/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
+        $instagram = json_decode($json);
+        $text_username = $instagram->graphql->user->full_name;
+        return $text_username;
+    }
 
     public function igGetUserPicSrc($username){
         $json = file_get_contents('https://www.instagram.com/explore/tags/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
@@ -77,7 +77,7 @@ class noMoreInsta{
     }
 
     public function ig_get_medias($username){
-        $json = file_get_contents('https://www.instagram.com/explore/tags/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
+        $json = file_get_contents('https://www.instagram.com/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
         $instagram = json_decode($json);
 
         $userID = $instagram->logging_page_id;

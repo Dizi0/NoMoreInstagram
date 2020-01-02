@@ -11,10 +11,17 @@ $instagram = new noMoreInsta($username);
 //var_dump($instagram->igDebug($username));
 
 echo $instagram->igGetUserName($username);
+echo '<br>';
+
 echo $instagram->igGetUserPic($username);
-//echo $instagram->igGetBio($username);
+echo '<br>';
+
+echo $instagram->igGetBio($username);
+echo '<br>';
 //
-echo $instagram->igGetUserMedia($username);
+echo $instagram->igGetUserNameText($username);
+echo '<br>';
+echo $instagram->ig_get_medias($username);
 ////var_dump($instagram->igDebug());
 ////var_dump($instagram->igGetUserData($username));
 //?>
