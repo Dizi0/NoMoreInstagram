@@ -29,6 +29,18 @@ class noMoreInsta{
         $userURL = $this->instagram->graphql->user->external_url;
         return $userURL;
     }
+    public function igGetFollowers($username){
+        $json = file_get_contents('https://www.instagram.com/' . $username . '/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
+        $instagram = json_decode($json);
+        $followers = $this->instagram->graphql->user->edge_followed_by->count;
+        return $followers;
+    }
+    public function igGetFollowed($username){
+        $json = file_get_contents('https://www.instagram.com/' . $username . '/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
+        $instagram = json_decode($json);
+        $followed = $this->instagram->graphql->user->edge_follow->count;
+        return $followed;
+    }
 
     public function igGetUserName($username){
         $json = file_get_contents('https://www.instagram.com/explore/tags/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique

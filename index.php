@@ -10,20 +10,22 @@ $username = "ford";
 $instagram = new noMoreInsta($username);
 //var_dump($instagram->igDebug($username));
 
+echo $instagram->igGetUserPic($username);
+echo '<br>';
+
 echo $instagram->igGetUserName($username);
 echo '<br>';
 
-//echo $instagram->igGetUserPic($username);
+echo $instagram->igGetUserNameText($username);
 echo '<br>';
 
-//echo $instagram->igGetBio($username);
+echo $instagram->igGetBio($username);
 echo '<br>';
+
 //
-//echo $instagram->igGetUserNameText($username);
 echo '<br>';
 //echo $instagram->igGetUserMedia($username);
 //var_dump($instagram->igDebug());
-//var_dump($instagram->igGetUserData($username));
 ?>
 <style>
     img {
