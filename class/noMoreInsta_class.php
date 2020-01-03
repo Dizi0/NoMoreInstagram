@@ -5,6 +5,9 @@
  * @Author : Adil 'Dizio' Aiachine
  * @Reason : Instagram API isn't intuitive and requires way too much work to implement
  * @Tech_limitations : Actually no way to get videos out of the current routes
+ * @TO-DO : Add some errors managment system , in can of file_get_content returning false
+ * @Routes : The route "Explore/tags/" is not longer useful, Their is some cache problem, making some results irrelevant
+ * Just try Toyota/Ford/Astonmartinlagonda, and you'll see some Fiats/Peugeot appearing consistently
  *
  ***/
 namespace noMoreInstagram;
@@ -44,14 +47,24 @@ class noMoreInsta{
 
     public function igGetUserName($username){
         $json = file_get_contents('https://www.instagram.com/explore/tags/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
-        $instagram = json_decode($json);
-        $text_username = $this->instagram->graphql->user->username;
+        if ($json == FALSE){
+            $text_username="No connection";
+        }
+        else{
+            $instagram = json_decode($json);
+            $text_username = $this->instagram->graphql->user->username;
+        }
         return $text_username;
     }
     public function igGetUserPic($username){
         $json = file_get_contents('https://www.instagram.com/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
-        $instagram = json_decode($json);
-        $profile_pic =  "<img src='" . $instagram->graphql->user->profile_pic_url_hd."'>";
+        if ($json == FALSE) {
+            $profile_pic="No connection";
+        }
+        else{
+            $instagram = json_decode($json);
+            $profile_pic =  "<img src='" . $instagram->graphql->user->profile_pic_url_hd."'>";
+        }
         return $profile_pic;
     }
     public function igGetUserId($username){
@@ -60,14 +73,20 @@ class noMoreInsta{
         return($instagram->graphql->user->id);
     }
     public function igGetUserBusCat($username){
-        $json = file_get_contents('https://www.instagram.com/explore/tags/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
+        $json = file_get_contents('https://www.instagram.com/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
         $instagram = json_decode($json);
         return($instagram->graphql->user->business_category_name);
     }
     public function igGetBio($username){
         $json = file_get_contents('https://www.instagram.com/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
-        $instagram = json_decode($json);
-        return($instagram->graphql->user->biography);
+        if ($json == FALSE){
+            $bio = "No connection";
+        }
+        else{
+            $instagram = json_decode($json);
+            $bio = $instagram->graphql->user->biography;
+        }
+        return($bio);
     }
     public function igGetUserNameText($username){
         $json = file_get_contents('https://www.instagram.com/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
@@ -84,33 +103,22 @@ class noMoreInsta{
     }
 
     /**
-     * TO DO : Récuperer le short code pour créer un embed si is_video == true
+     * @TO-DO : Récuperer le short code pour créer un embed si is_video == true
      *  concat
      */
     public function igGetUserMedia($username){
-        $json = @file_get_contents('https://www.instagram.com/explore/tags/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
+        $json = @file_get_contents('https://www.instagram.com/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
         if($json == FALSE){
-            $instagram = json_decode($json);
-            $mediasource = $instagram->graphql->hashtag->edge_hashtag_to_media->edges;
-//        var_dump($mediasource);
-            foreach ($mediasource as $posts) {
-                echo "<img src='". $posts->node->display_url ."'>";
-            }
+       //GESTION D'ERREUR
+            echo "No connection";
         }
         else{
-            $json = file_get_contents('https://www.instagram.com/'.$username.'/?__a=1'); // Cette page est un Json correpondant à celle visible par un utilisateur classique
             $instagram = json_decode($json);
-
-            $userID = $instagram->logging_page_id;
-            $text_username = $instagram->graphql->user->full_name;
-            $profile_pic_url = $instagram->graphql->user->profile_pic_url_hd;
-            $profile_pic =  "<img src='" . $instagram->graphql->user->profile_pic_url_hd."'>";
-            $mediasource = $instagram->graphql->user->edge_owner_to_timeline_media->edges;
-
-            foreach ($mediasource as $item) {
-                $img = $item->node->display_url;
-                echo "<img src='". $img ."'>";
-            }
+            $mediasource = $instagram->edges->graphql->user;
+            var_dump($mediasource);
+//            foreach ($mediasource as $posts) {
+//                echo "<img src='". $posts->display_url ."'>";
+//            }
         }
     }
 }
