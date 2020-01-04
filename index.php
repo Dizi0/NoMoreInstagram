@@ -24,9 +24,6 @@ echo $instagram->igGetUserBusCat($username);
 //
 echo '<br>';
 echo $instagram->igGetUserMedia($username);
-
-
-//var_dump($instagram->igDebug());
 ?>
 <style>
     img {
