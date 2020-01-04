@@ -114,11 +114,14 @@ class noMoreInsta{
         }
         else{
             $instagram = json_decode($json);
-            $mediasource = $instagram->edges->graphql->user;
-            var_dump($mediasource);
-//            foreach ($mediasource as $posts) {
-//                echo "<img src='". $posts->display_url ."'>";
-//            }
+            $mediasource = $instagram->graphql->user->edge_felix_video_timeline->edges;
+
+//            var_dump($mediasource);
+            foreach ($mediasource as $posts) {
+                $posts = $posts->node->display_url;
+                echo "<img src='". $posts ."'>";
+//                var_dump($posts);
+            }
         }
     }
 }
