@@ -1,4 +1,4 @@
-# NoMoreInstagram
+# NoMoreInstagram [DEPRECATED]
 You want a basic Instagram integration and don't want to spend time creating an app on Instagram API tools ?
 
 Then this small class is made for your usage.
